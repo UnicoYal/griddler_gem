@@ -34,6 +34,32 @@ describe Griddler::Configuration do
       Griddler.configure
     end
 
+    it 'LevelTravel block' do
+      module CrmLevel
+        class IncomeMailProcessor
+        end
+      end
+
+      class Sentry
+      end
+
+      Griddler.configure do |config|
+        config.processor_class = CrmLevel::IncomeMailProcessor # CommentViaEmail
+        config.email_class = Griddler::Email # MyEmail
+        config.processor_method = :process # :create_comment (A method on CommentViaEmail)
+        config.reply_delimiter = '-- REPLY ABOVE THIS LINE --'
+        config.sentry = Sentry
+        config.logger_app = Rails.logger
+      end
+
+      expect(Griddler.configuration.processor_class).to eq(CrmLevel::IncomeMailProcessor)
+      expect(Griddler.configuration.email_class).to eq(Griddler::Email)
+      expect(Griddler.configuration.processor_method).to eq(:process)
+      expect(Griddler.configuration.reply_delimiter).to eq('-- REPLY ABOVE THIS LINE --')
+      expect(Griddler.configuration.sentry).to eq(Sentry)
+      expect(Griddler.configuration.logger_app).to eq(Rails.logger)
+    end
+
     it 'stores a processor_class' do
       class DummyProcessor
       end
