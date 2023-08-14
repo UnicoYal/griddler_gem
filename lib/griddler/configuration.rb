@@ -16,7 +16,7 @@ module Griddler
   end
 
   class Configuration
-    attr_accessor :processor_method, :reply_delimiter
+    attr_accessor :processor_method, :reply_delimiter, :sentry, :logger_app
     attr_writer :email_class
 
     def processor_class
@@ -34,19 +34,19 @@ module Griddler
     end
 
     def sentry=(klass)
-      @sentry = klass
+      @sentry ||= klass
     end
 
     def sentry
       @sentry
     end
 
-    def logger=(klass)
-      @logger = klass
+    def logger_app=(klass)
+      @logger_app ||= klass
     end
 
-    def logger
-      @logger
+    def logger_app
+      @logger_app
     end
 
     def processor_class=(klass)

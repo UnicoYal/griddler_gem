@@ -16,9 +16,9 @@ class Griddler::EmailsController < ActionController::Base
 
   private
 
-  delegate :processor_class, :email_class, :processor_method, :email_service, :sentry, :logger, to: :griddler_configuration
+  delegate :processor_class, :email_class, :processor_method, :email_service, :sentry, :logger_app, to: :griddler_configuration
 
-  private :processor_class, :email_class, :processor_method, :email_service, :sentry, :logger
+  private :processor_class, :email_class, :processor_method, :email_service, :sentry, :logger_app
 
   def normalized_params
     Array.wrap(email_service.normalize_params(params))
@@ -42,7 +42,7 @@ class Griddler::EmailsController < ActionController::Base
         griddler_normalized_params: normalized_params,
         griddler_date: DateTime.now
       }
-      logger.info(@log_hash)
+      logger_app.info(@log_hash)
     rescue
     end
   end
